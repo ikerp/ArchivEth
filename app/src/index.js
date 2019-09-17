@@ -22,6 +22,18 @@ const App = {
       const accounts = await web3.eth.getAccounts();
       this.account = accounts[0];
 
+      document.getElementById("activeAddress").innerHTML = 'Welcome! ' + this.account;
+
+      document.getElementById('file-input').onchange = function (e) {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.addEventListener('load', async function() {     
+          document.getElementById('file').innerText = reader.result;
+          document.getElementById('sha').innerText = await web3.utils.sha3(reader.result);
+        });
+        reader.readAsText(file);
+      };
+
       this.refreshBalance();
     } catch (error) {
       console.error("Could not connect to contract or chain.");
@@ -32,11 +44,11 @@ const App = {
     const { getBalance } = this.meta.methods;
     const balance = await getBalance(this.account).call();
 
-    const balanceElement = document.getElementsByClassName("balance")[0];
-    balanceElement.innerHTML = balance;
+    // const balanceElement = document.getElementsByClassName("balance")[0];
+    // balanceElement.innerHTML = balance;
   },
 
-  sendCoin: async function() {
+/*   sendCoin: async function() {
     const amount = parseInt(document.getElementById("amount").value);
     const receiver = document.getElementById("receiver").value;
 
@@ -52,7 +64,7 @@ const App = {
   setStatus: function(message) {
     const status = document.getElementById("status");
     status.innerHTML = message;
-  },
+  }, */
 };
 
 window.App = App;
