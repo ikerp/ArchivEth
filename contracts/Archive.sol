@@ -7,7 +7,7 @@ contract Archive {
         uint256 time;
     }
 
-    mapping(bytes32 => Submition) submitions;
+    mapping(bytes32 => Submition) private submitions;
 
     function checkFile(bytes32 file) public view returns(bool) {
         if (submitions[file].submitter != address(0)) {
